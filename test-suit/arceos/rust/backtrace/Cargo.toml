@@ -1,0 +1,14 @@
+[package]
+name = "arceos-backtrace"
+version = "0.1.0"
+edition.workspace = true
+authors = ["hanjiaxin"]
+publish = false
+
+[features]
+ax-std = ["dep:ax-std"]
+backtrace = ["ax-std/backtrace"]
+
+[dependencies]
+ax-std = { workspace = true, optional = true }
+axbacktrace = { workspace = true }

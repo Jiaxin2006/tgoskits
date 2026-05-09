@@ -1,11 +1,11 @@
 # Main building script
 
-include scripts/make/cargo.mk
+include cargo.mk
 
 ifeq ($(APP_TYPE), c)
-  include scripts/make/build_c.mk
+  include build_c.mk
 else
-  rust_package := $(shell cat $(APP)/Cargo.toml | sed -n 's/^name = "\([a-z0-9A-Z_\-]*\)"/\1/p')
+  rust_package := $(shell cat $(APP)/starryos/Cargo.toml | sed -n 's/^name = "\([a-z0-9A-Z_\-]*\)"/\1/p' | head -1)
   rust_elf := $(TARGET_DIR)/$(TARGET)/$(MODE)/$(rust_package)
 endif
 
@@ -59,7 +59,7 @@ $(OUT_DIR):
 
 _dwarf: $(OUT_ELF)
 ifeq ($(DWARF), y)
-	$(call run_cmd,./scripts/make/dwarf.sh,$(OUT_ELF) $(OBJCOPY))
+	$(call run_cmd,./dwarf.sh,$(OUT_ELF) $(OBJCOPY))
 endif
 
 $(OUT_BIN): _cargo_build $(OUT_ELF) _dwarf
